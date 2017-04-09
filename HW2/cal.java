@@ -9,17 +9,24 @@ import java.time.temporal.TemporalAdjusters;
 import java.time.format.DateTimeFormatter;
 public class cal {
     public static void main(String[] args) {
-        if(args.length != 2){
-            return;
+        LocalDate ldb = null;
+        try{
+            if(args[0].length() == 1){
+                args[0] = "0" + args[0];
+            }
+            ldb = LocalDate.parse(args[0] + args[1] + "01",DateTimeFormatter.ofPattern("MMyyyydd"));
         }
-        if(args[0].length() == 1){
-            args[0] = "0" + args[0];
+        catch(Exception e){
+            ldb = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth());
         }
-        LocalDate ldb = LocalDate.parse(args[0] + args[1] + "01",DateTimeFormatter.ofPattern("MMyyyydd"));
+        PrintfMouth(ldb);
+    }
+
+    public static void PrintfMouth(LocalDate ldb){
         LocalDate lde = ldb.with(TemporalAdjusters.lastDayOfMonth());
         
         String mouth = ldb.getMonth().toString();
-        System.out.println(mouth.substring(0, 1) + mouth.substring(1).toLowerCase() + " " + args[1]);
+        System.out.println(mouth.substring(0, 1) + mouth.substring(1).toLowerCase() + " " + Integer.toString(ldb.getYear()));
         System.out.println("Su Mo Tu We Th Fr Sa");
 
         for(int i = 1; i<=lde.getDayOfMonth() + ldb.getDayOfWeek().getValue(); i++){
