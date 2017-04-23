@@ -1,0 +1,242 @@
+\documentclass[a4paper]{article}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{
+  top=1in,
+  inner=1in,
+  outer=1in,
+  bottom=1in,
+  headheight=3ex,
+  headsep=2ex
+}
+\usepackage{amssymb,amsmath}
+\usepackage{fontspec}
+\usepackage[CJKbookmarks, colorlinks, bookmarksnumbered=true,pdfstartview=FitH,linkcolor=black,citecolor=black]{hyperref}
+\usepackage{xeCJK}
+\usepackage{xltxtra,xunicode}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{float}
+
+\lstset{basicstyle=\footnotesize\ttfamily,        % size of fonts used for the code
+        columns=fullflexible,
+        numbers=left,
+        numberstyle=\tiny,
+        keywordstyle=\color{blue},
+        stringstyle=\color[rgb]{0,0.6,0},
+        commentstyle=\color[cmyk]{1,0,1,0},
+        frame=shadowbox,
+        escapeinside=``,
+        breaklines=true,
+        extendedchars=false,
+        xleftmargin=2em,xrightmargin=2em, aboveskip=1em,
+        tabsize=4, %tab size
+        showspaces=false %no space
+       }
+
+\newcommand{\tightlist}{
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% font
+\setCJKmainfont[AutoFakeBold]{文泉驿微米黑}
+\setmainfont[AutoFakeBold]{Segoe UI}
+\setromanfont[AutoFakeBold]{Segoe UI}
+\setmonofont[Mapping={}]{Monaco}
+\linespread{1.2}\selectfont
+\XeTeXlinebreaklocale "zh" 
+\setcounter{secnumdepth}{3}
+\begin{document}
+\title{\Huge Java技术\\ 第三次上机报告}
+\author { \vspace{12cm} \\ \LARGE 班级：  1413014  \\ \LARGE 姓名：  乔新文   \\ \LARGE 学号：14130140393} 
+\date{ \vspace{4cm} 2017.4.23}
+
+\maketitle
+\clearpage
+
+\tableofcontents
+
+\clearpage
+
+\section{综述}
+
+本文档将阐述《Java技术》第三次上机代码的详细设计及实现。\\
+
+为节约篇幅，文档中对上机要求中已有的部分将不再复述，仅对总体的设计思路，要求外添加的内容和部分重要的代码做出说明。\\
+
+本次上机实验所用代码均为UTF-8编码，编译过程中如果报错请在编译命令中加上“-encoding UTF-8”选项。\\
+
+本次上机所有代码均在本机(Win10 10586 64位)上经过测试并运行正常，其他环境下则未经测试。
+
+\section{题目一}
+
+\subsection{题目}
+
+PIMCollection class
+
+\subsection{设计阐述}
+    \subsubsection{PIMCollection}
+    本次PIMCollection中所有集合相关部分均采用HashSet类型，以提高插入，删除，筛选，随机访问元素的效率。\\
+    PIMCollection直接继承自由HashSet<T>泛型类特化的HashSet<PIMEntity>类，以满足PIMCollection的集合特征。\\
+        
+    \subsubsection{getNotes()，getTodos()，getAppointments()，getContacts()}
+    从要求中可以看出，新添加的getNotes()，getTodos()，getAppointments()，getContacts()四个方法的功能非常相似，均是从PIMEntity集合中抽出对应类型的对象实例，转型后组织成新的集合返回，区别仅在于方法内部的类型判定不同。\\
+
+    \subsubsection{entitiesSwitch()}
+    故添加抽象出私有的泛型方法entitiesSwitch()供getNotes()，getTodos()，getAppointments()，getContacts()四个方法调用，通过传入类型参数的不同来筛选出指定类型的对象实例并返回指定类型的集合。\\
+
+    \subsubsection{getItemsForDate()}
+    getItemsForDate()方法则是通过调用getTodos()和getAppointments()方法获得实现了PIMDate接口的对象集合，再通过LocalDate实例的euqals()方法比较日期是否相同来筛选出日期相同的PIMEntity对象实例。\\
+
+\subsection{代码片段}
+
+PIMCollection继承关系。
+
+\begin{lstlisting}[language=Java]
+public class PIMCollection extends HashSet<PIMEntity>{
+}
+\end{lstlisting}
+
+entitiesSwitch()方法实现。\\
+由于Java中的泛型设计为伪泛型，泛型信息在编译后会被擦除（与C\#的泛型差异巨大）。故在确定向上转型后得到的PIMEntity对象实际类型时使用getClass()方法而不是instanceof关键字。\\
+且为了顺利将item添加进items，使用强制类型转换(T)item，尽管T在编译后会被替换为Object。\\
+%Java泛型好烂
+
+\begin{lstlisting}[language=Java]
+    @SuppressWarnings({"unchecked"})
+    private <T extends PIMEntity> HashSet<T> entitiesSwitch(T t){
+        HashSet<T> items = new HashSet<T>();
+        for(PIMEntity item : this){
+            if(item.getClass().equals(t.getClass())){
+                items.add((T)item);
+            }
+        }
+        return items;
+    }
+\end{lstlisting}
+
+getNotes()，getTodos()，getAppointments()，getContacts()调用entitiesSwitch()的方式
+
+\begin{lstlisting}[language=Java]
+    public HashSet<PIMNote> getNotes(){
+        return entitiesSwitch(new PIMNote("Empty"));
+    }
+
+    public HashSet<PIMTodo> getTodos(){
+        return entitiesSwitch(new PIMTodo("Empty"));
+    }
+
+    public HashSet<PIMAppointment> getPIMAppointments(){
+        return entitiesSwitch(new PIMAppointment("Empty"));
+    }
+
+    public HashSet<PIMContact> getContacts(){
+         return entitiesSwitch(new PIMContact("Empty", "Empty"));
+    }
+\end{lstlisting}
+
+getItemsForDate()方法实现，接受的参数时LocalDate类型
+
+\begin{lstlisting}[language=Java]
+    public HashSet<PIMEntity> getItemsForDate(LocalDate d){
+        HashSet<PIMEntity> entitiesForDate = new HashSet<PIMEntity>();
+        HashSet<PIMTodo> todos = entitiesSwitch(new PIMTodo("Empty"));
+        HashSet<PIMAppointment> appointments = entitiesSwitch(new PIMAppointment("Empty"));
+        for(PIMTodo item : todos){
+            if(item.getDate().equals(d)){
+                entitiesForDate.add(item);
+            }
+        }
+        for(PIMAppointment item : appointments){
+            if(item.getDate().equals(d)){
+                entitiesForDate.add(item);
+            }
+        }
+        return entitiesForDate;
+    }
+\end{lstlisting}
+
+由于要求中getItemsForDate()传入的参数时Date类型，故对getItemsForDate(LocalDate d)方法进行重载，添加一个接受Date类型参数的getItemsForDate(Date d)方法。实际上是将Date转换为LocalDate后再调用getItemsForDate(LocalDate d)方法。
+
+\begin{lstlisting}[language=Java]
+    public HashSet<PIMEntity> getItemsForDate(Date d){
+        LocalDate ld = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return getItemsForDate(ld);
+    }
+\end{lstlisting}
+
+\subsection{测试}
+测试代码
+\begin{lstlisting}[language=Java]
+    public static void main(String[] args) {
+        PIMCollection collection = new PIMCollection();
+        collection.add(new PIMTodo("todo1"));
+        collection.add(new PIMTodo("todo2"));
+        collection.add(new PIMNote("note1"));
+        collection.add(new PIMNote("note2"));
+        collection.add(new PIMAppointment("appointment1"));
+        collection.add(new PIMAppointment("appointment2"));
+        collection.add(new PIMContact("fm1", "lm1"));
+        collection.add(new PIMContact("fm2", "lm2"));
+        
+        HashSet<PIMNote> notes = collection.getNotes();
+        HashSet<PIMTodo> todos = collection.getTodos();
+        HashSet<PIMAppointment> appointments = collection.getPIMAppointments();
+        HashSet<PIMContact> contacts = collection.getContacts();
+        HashSet<PIMEntity> entitiesForDate = collection.getItemsForDate(LocalDate.now());
+
+        for(PIMNote item:notes){
+            System.out.println(item.getClass().toString());
+            System.out.println(item.toString());
+        }
+        for(PIMTodo item:todos){
+            System.out.println(item.getClass().toString());
+            System.out.println(item.toString());
+        }
+        for(PIMAppointment item:appointments){
+            System.out.println(item.getClass().toString());
+            System.out.println(item.toString());
+        }
+        for(PIMContact item:contacts){
+            System.out.println(item.getClass().toString());
+            System.out.println(item.toString());
+        }
+        System.out.println("Date test");
+        for(PIMEntity item:entitiesForDate){
+            System.out.println(item.getClass().toString());
+            System.out.println(item.toString());
+        }
+    }
+\end{lstlisting}
+
+测试结果
+\begin{lstlisting}[language=Java,numbers=none]
+PS G:\Java\JavaHomework\hw3> java PIMCollection
+class PIMNote
+Type: PIMNote    Priority: normal    note1
+class PIMNote
+Type: PIMNote    Priority: normal    note2
+class PIMTodo
+Type: PIMTodo    Priority: normal    Date: 2017-04-23    todo2
+class PIMTodo
+Type: PIMTodo    Priority: normal    Date: 2017-04-23    todo1
+class PIMAppointment
+Type: PIMAppointment    Priority: normal    Date: 2017-04-23    appointment1
+class PIMAppointment
+Type: PIMAppointment    Priority: normal    Date: 2017-04-23    appointment2
+class PIMContact
+Type: PIMContact    Priority: normal    FirstName: fm1    LastName: lm1    EmailAddress:
+class PIMContact
+Type: PIMContact    Priority: normal    FirstName: fm2    LastName: lm2    EmailAddress:
+Date test
+class PIMTodo
+Type: PIMTodo    Priority: normal    Date: 2017-04-23    todo2
+class PIMAppointment
+Type: PIMAppointment    Priority: normal    Date: 2017-04-23    appointment1
+class PIMTodo
+Type: PIMTodo    Priority: normal    Date: 2017-04-23    todo1
+class PIMAppointment
+Type: PIMAppointment    Priority: normal    Date: 2017-04-23    appointment2
+\end{lstlisting}
+
+\end{document}
