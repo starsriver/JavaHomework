@@ -35,6 +35,16 @@ public class PIMCollection extends HashSet<PIMEntity>{
             }
         }
         return items;
+        /*原先的基于C#的泛型写法
+        HashSet<T> items = new HashSet<T>();
+        for(PIMEntity item : this){
+            if(item instaceof T){
+                items.add((T)item);
+            }
+        }
+        return items;
+
+         */
     }
     public HashSet<PIMEntity> getItemsForDate(LocalDate d){
         HashSet<PIMEntity> entitiesForDate = new HashSet<PIMEntity>();
