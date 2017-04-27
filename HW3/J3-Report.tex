@@ -135,20 +135,14 @@ getNotes()，getTodos()，getAppointments()，getContacts()调用entitiesSwitch(
     }
 \end{lstlisting}
 
-getItemsForDate()方法实现，接受的参数时LocalDate类型
+getItemsForDate()方法实现，接受的参数时LocalDate类型。\\
+由于仅PIMTodo和PIMAppointment实现了PIMDate接口，所以使用instanceof取出实现了PIMDate的部分item并进行日期比较提取，利用了\&\&运算符的短路特性保证了类型转换的正确进行。
 
 \begin{lstlisting}[language=Java]
     public HashSet<PIMEntity> getItemsForDate(LocalDate d){
         HashSet<PIMEntity> entitiesForDate = new HashSet<PIMEntity>();
-        HashSet<PIMTodo> todos = entitiesSwitch(new PIMTodo("Empty"));
-        HashSet<PIMAppointment> appointments = entitiesSwitch(new PIMAppointment("Empty"));
-        for(PIMTodo item : todos){
-            if(item.getDate().equals(d)){
-                entitiesForDate.add(item);
-            }
-        }
-        for(PIMAppointment item : appointments){
-            if(item.getDate().equals(d)){
+        for(PIMEntity item:this){
+            if((item instanceof PIMDate )&&((PIMDate)item).getDate().equals(d)){
                 entitiesForDate.add(item);
             }
         }

@@ -48,15 +48,8 @@ public class PIMCollection extends HashSet<PIMEntity>{
     }
     public HashSet<PIMEntity> getItemsForDate(LocalDate d){
         HashSet<PIMEntity> entitiesForDate = new HashSet<PIMEntity>();
-        HashSet<PIMTodo> todos = entitiesSwitch(new PIMTodo("Empty"));
-        HashSet<PIMAppointment> appointments = entitiesSwitch(new PIMAppointment("Empty"));
-        for(PIMTodo item : todos){
-            if(item.getDate().equals(d)){
-                entitiesForDate.add(item);
-            }
-        }
-        for(PIMAppointment item : appointments){
-            if(item.getDate().equals(d)){
+        for(PIMEntity item:this){
+            if((item instanceof PIMDate )&&((PIMDate)item).getDate().equals(d)){
                 entitiesForDate.add(item);
             }
         }
