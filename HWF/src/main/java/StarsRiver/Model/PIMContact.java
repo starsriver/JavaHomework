@@ -1,3 +1,6 @@
+package StarsRiver.Model;
+
+import StarsRiver.Model.base.*;;
 /**
  * PIMContact
  * @auther 乔新文

@@ -1,5 +1,10 @@
+package StarsRiver.Controller;
+
 import java.sql.*;
 import java.util.LinkedList;
+import StarsRiver.Model.base.*;
+import StarsRiver.Model.*;
+import StarsRiver.Controller.base.*;
 /**
  * PIMDataBase
  * @auther 乔新文
@@ -114,18 +119,19 @@ public class PIMDataBase implements PIMStore{
         }
     }
     public static void main(String[] args) {
-        // PIMDataBase D = new PIMDataBase();
-        // D.Open(new String[]{"org.sqlite.JDBC","jdbc:sqlite:PIMDataBase.db3"});
-        // PIMCollection str = new PIMCollection();
-        // str.add(new PIMTodo("TT2"));
-        // str.add(new PIMNote("nn2"));
-        // str.add(new PIMContact("FF", "ll"));
-        // str.add(new PIMAppointment("AA"));
-        // D.Write(str.toStrings());
-
         PIMDataBase D = new PIMDataBase();
         D.Open(new String[]{"org.sqlite.JDBC","jdbc:sqlite:PIMDataBase.db3"});
-        PIMCollection str = new PIMCollection(D.Read());
+        PIMCollection str = new PIMCollection();
+        str.add(new PIMTodo("TT2"));
+        str.add(new PIMNote("nn2"));
+        str.add(new PIMContact("FF", "ll"));
+        str.add(new PIMAppointment("AA"));
+        D.Write(str.toStrings());
+        D.Close();
+
+        D = new PIMDataBase();
+        D.Open(new String[]{"org.sqlite.JDBC","jdbc:sqlite:PIMDataBase.db3"});
+        str = new PIMCollection(D.Read());
         for(PIMEntity s:str){
             System.out.println(s);
         } 

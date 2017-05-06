@@ -1,7 +1,10 @@
+package StarsRiver.Model;
+
 import java.util.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.HashSet;
+import StarsRiver.Model.base.*;
 /**
  * PIMCollection
  * @auther 乔新文
@@ -13,7 +16,7 @@ public class PIMCollection extends HashSet<PIMEntity>{
     public PIMCollection(){
         super();
     }
-
+    private static final long serialVersionUID = 1L;
     public PIMCollection(String[] pimCollectionStrings){
         super();
         for(int i = 0; i<pimCollectionStrings.length;i++){

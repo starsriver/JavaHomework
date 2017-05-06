@@ -1,3 +1,4 @@
+package StarsRiver.Model.base;
 /**
  * PIMEntity
  * @auther 乔新文
@@ -7,10 +8,10 @@
 public abstract class PIMEntity {
     String Priority;
     // default constructor sets priority to "high" "above" "normal" "below_normal" "idle"
-    PIMEntity() {
+    public PIMEntity() {
         Priority = "normal";
     }
-    PIMEntity(String priority) {
+    public PIMEntity(String priority) {
         Priority =  priority;
     }
     public String getPriority() {

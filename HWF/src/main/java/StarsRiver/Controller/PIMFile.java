@@ -1,3 +1,6 @@
+package StarsRiver.Controller;
+
+import StarsRiver.Controller.base.*;
 /**
  * PIMFile
  * @auther 乔新文

@@ -1,3 +1,4 @@
+package StarsRiver.Controller.base;
 /**
  * PIMStore
  * @auther 乔新文
