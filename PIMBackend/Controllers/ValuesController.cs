@@ -83,32 +83,29 @@ namespace PIMBackend.Controllers
             var OldPIMContacts = context.PIMContacts.Select(item => item.ToString());
             foreach(string item in values)
             {
-                switch(item.Substring(0,13))
+                if(item.Contains("Type: PIMTodo"))
                 {
-                    case "Type: PIMTodo":
-                    {
-                        PIMTodos.Add(item);
-                        break;
-                    }
-                    case "Type: PIMNote":
-                    {
-                        PIMNotes.Add(item);                        
-                        break;
-                    }
-                    case "Type: PIMAppo":
-                    {
-                        PIMAppointments.Add(item);                        
-                        break;
-                    }
-                    case "Type: PIMCont":
-                    {
-                        PIMContacts.Add(item);                        
-                        break;
-                    }
-                    default:
-                    {
-                        continue;
-                    }
+                    PIMTodos.Add(item);
+                    continue;
+                }
+                else if(item.Contains("Type: PIMNote"))
+                {
+                    PIMNotes.Add(item);
+                    continue;
+                }
+                else if(item.Contains("Type: PIMAppo"))
+                {
+                    PIMAppointments.Add(item);
+                    continue;
+                }
+                else if(item.Contains("Type: PIMCont"))
+                {
+                    PIMContacts.Add(item);
+                    continue;
+                }
+                else
+                {
+                    continue;
                 }
             }
             var newPIMTodos = PIMTodos.Except(OldPIMTodos);
