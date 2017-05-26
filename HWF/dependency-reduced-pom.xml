@@ -4,7 +4,7 @@
   <groupId>StarsRiver</groupId>
   <artifactId>HWF</artifactId>
   <name>HWF</name>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.1</version>
   <url>http://maven.apache.org</url>
   <build>
     <plugins>
@@ -20,7 +20,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>StarsRiver.Controller.PIMNetwork</mainClass>
+                  <mainClass>StarsRiver.MainWindows</mainClass>
                 </transformer>
               </transformers>
             </configuration>
