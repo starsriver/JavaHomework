@@ -13,7 +13,7 @@ namespace PIMBackend
         public static void Main(string[] args)
         {
             var host = new WebHostBuilder()
-                .UseUrls("http://localhost:8088")
+                .UseUrls("http://localhost:80")
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
