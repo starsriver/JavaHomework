@@ -36,13 +36,6 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>sqlite</groupId>
-      <artifactId>sqlite-jdbc</artifactId>
-      <version>3.16.1</version>
-      <scope>system</scope>
-      <systemPath>G:\Java\JavaHomework\HWF\lib\sqlite-jdbc-3.16.1.jar</systemPath>
-    </dependency>
   </dependencies>
   <properties>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
