@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * @auther 乔新文
+ * @StudentID 14130140393
+ * @Email starsriver@outlook.com
+-->
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StarsRiver.Controller.NewTodoController">
+   <children>
+      <VBox prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <HBox prefHeight="40.0" prefWidth="600.0">
+               <children>
+                  <Label fx:id="Title" prefHeight="40.0" prefWidth="600.0" text="New Todo">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="600.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" prefHeight="80.0" prefWidth="100.0" text=" Year: ">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="Year" prefHeight="40.0" prefWidth="100.0" />
+                  <Label alignment="CENTER_RIGHT" prefHeight="80.0" prefWidth="100.0" text=" Month: ">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="Month" prefHeight="40.0" prefWidth="100.0" />
+                  <Label alignment="CENTER_RIGHT" prefHeight="80.0" prefWidth="100.0" text=" Day: ">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="Day" prefHeight="40.0" prefWidth="100.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" prefHeight="80.0" prefWidth="100.0" text="Priority: ">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="Priority" prefHeight="40.0" prefWidth="150.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" prefHeight="80.0" prefWidth="100.0" text="Contains: ">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="Contains" prefHeight="80.0" prefWidth="200.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </TextArea>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="60.0" prefWidth="600.0">
+               <children>
+                  <Button fx:id="Create" mnemonicParsing="false" onAction="#Create" prefHeight="40.0" prefWidth="80.0" text="Create">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Label prefHeight="80.0" prefWidth="100.0" />
+                  <Button fx:id="Cancel" onAction="#Cancel" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" text="Cancel">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Label prefHeight="80.0" prefWidth="100.0" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</Pane>

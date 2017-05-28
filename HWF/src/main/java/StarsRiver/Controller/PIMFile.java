@@ -39,7 +39,7 @@ public class PIMFile implements PIMStore{
             return false;
         }
         try{
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file,true));
             for (String var : str) {
                 bw.write(var);
                 bw.newLine();

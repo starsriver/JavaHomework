@@ -94,8 +94,8 @@ public class PIMCollection extends HashSet<PIMEntity>{
 
          */
     }
-    public HashSet<PIMEntity> getItemsForDate(LocalDate d){
-        HashSet<PIMEntity> entitiesForDate = new HashSet<PIMEntity>();
+    public PIMCollection getItemsForDate(LocalDate d){
+        PIMCollection entitiesForDate = new PIMCollection();
         for(PIMEntity item:this){
             if((item instanceof PIMDate )&&((PIMDate)item).getDate().equals(d)){
                 entitiesForDate.add(item);
